@@ -74,7 +74,19 @@ namespace Exercises
         /// </summary>
         /// <returns>int: count</returns>
         public int Count() {
-            return -1;
+
+            int num = 1;
+            if (Head.Next != null)
+            {
+                num++;
+                ListNode current = Head.Next;
+                while (current.Next != null)
+                {
+                    num++;
+                    current = current.Next;
+                }
+            }
+            return num;
         }
 
         /// <summary>
@@ -83,6 +95,10 @@ namespace Exercises
         /// <param name="data"></param>
         /// <returns>success: true</returns>
         public bool AddToStart(string data) {
+
+            ListNode currentStart = Head;
+            Head = new ListNode(data);
+            Head.Next = currentStart;
             return false;
         }
 
@@ -94,15 +110,41 @@ namespace Exercises
         /// <param name="index"></param>
         /// <returns></returns>
         public bool AddNodeAt(string data, int index) {
+            ListNode newNode = new ListNode(data);
+
+            if (Head.Next != null && index >= 0)
+            {
+                ListNode current = Head;
+                for (int i = 0; i < index; i++)
+                   if (current.Next != null) current = current.Next;
+                   else AddToEnd(null);                    
+                
+                newNode.Next = current;
+                ListNode cur = Head;
+
+                for (int i = 0; i < index - 1; i++) cur = cur.Next;
+                cur.Next = newNode;
+            }
             return false;
         }
-
         /// <summary>
         /// Delete node at index.  return false if node does not exist
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
         public bool DeleteNodeAt(int index) {
+
+            ListNode current = Head;
+            if (Head != null)
+            {
+                for (int i = 1; i < index; i++)
+                {
+                    if (current.Next != null) current = current.Next;
+                }
+                if (current.Next != null)
+                    current.Next = current.Next.Next;
+                    return true;
+            }
             return false;
         }
     }
